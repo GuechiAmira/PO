@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Animated Portfolio</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script type="module">
+        import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r132/build/three.module.js';
+        import { GLTFLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/loaders/GLTFLoader.js';
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x000000);
+
+        const camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 5, -10);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        const loader = new GLTFLoader();
+        let amira, donatte;
+
+        // Chargement du modèle d'Amira
+        loader.load('AMIRAGblend.glb', (gltf) => {
+            amira = gltf.scene;
+            amira.position.set(0, 0, 0);
+
+            // Ajuster la taille d'Amira
+            amira.scale.set(2.5, 2.5, 2.5);
+
+            scene.add(amira);
+
+            // Déclencher l'animation après le chargement d'Amira
+            animate();
+
+            // Ajouter un gestionnaire d'événements pour le clic sur Amira
+            renderer.domElement.addEventListener('click', onAmiraClick);
+        });
+
+        // Chargement du modèle de Donatte
+        loader.load('donatte.glb', (gltf) => {
+            donatte = gltf.scene;
+            donatte.position.set(0, 0, -5);
+            scene.add(donatte);
+
+            // Déclencher l'animation de Donatte avant Amira
+            animateDonatte();
+        });
+
+        const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00];
+        let colorIndex = 0;
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (amira) {
+                amira.rotation.y += 0.02;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        function animateDonatte() {
+            requestAnimationFrame(animateDonatte);
+
+            if (donatte) {
+                donatte.rotation.y += 0.02;
+            }
+        }
+
+        function onAmiraClick(event) {
+            const mouse = new THREE.Vector2((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObject(amira, true);
+
+            if (intersects.length > 0) {
+                amira.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.material.color.set(colors[colorIndex]);
+                        colorIndex = (colorIndex + 1) % colors.length;
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+
+
+
+
+
+</head>
+
+<body>
+    <header class="header">
+        <a href="#" class="logo">Portfolio.</a>
+        <nav class="navbar">
+            <a href="#" style="--i:1;" class="active">Home</a>
+            <a href="#" style="--i:2">About</a>
+            <a href="#" style="--i:3">Skills</a>
+            <a href="#" style="--i:4">Portfolio</a>
+            <a href="#" style="--i:5">Contact</a>
+        </nav>
+    </header>
+    <section class="home">
+        <div class="home-content">
+            <h3>Hello, It's Me</h3>
+            <h1>Amira Guechi</h1>
+            <h3>And I'm a <samp class="multiple-text"></samp></h3>
+            <p>I am a master's student majoring in Data Science and Web Technology, currently in my final year. I am highly satisfied with the program, and I feel it has equipped me with valuable knowledge and skills.</p>
+            <div class="social-media">
+                <a href="#" style="--i:7;"><i class='bx bxl-facebook'></i></a>
+                <a href="#" style="--i:8;"><i class='bx bxl-twitter'></i></a>
+                <a href="#" style="--i:9;"><i class='bx bxl-instagram-alt'></i></a>
+                <a href="#" style="--i:10;"><i class='bx bxl-snapchat'></i></a>
+            </div>
+            <a href="#" class="btn">Download CV</a>
+        </div>
+        <div class="home-img">
+            <img src="asma.jfif" alt="">
+        </div>
+    </section>
+    <section class="bottom-photo">
+        <h1>Photo de la Table TP1</h1>
+        <img src="BOUTHAINA2.png" alt="Bottom Photo">
+    </section>
+    <section class="b-photo">
+        <h1>Photo de la Cene TP2</h1>
+        <img src="untitled.png" alt="Bottom Photo">
+    </section>
+    <section class="b-photo">
+        <h1>Photo de la Cene TP2</h1>
+        <img src="donatte.png" alt="Bottom Photo">
+    </section>
+    <section class="b-photo">
+      <h1>Animation</h1>
+      <!-- Ajoutez ici tout contenu HTML pour l'animation -->
+     
+     <h1> Amira : " أريد أكل الدونات ولكنها تهرب، أنا حزين " &#128546; <span class="sad-face"></H1>
+  
+  <h1>donnate : " ستحمر من الغضب ولن تمسكني هيهيهيهيه "<span class="laughing-face">😂</span></h1>
+    </section>
+  
+  
+  
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var typed = new Typed(".multiple-text", {
+                strings: ["Big Data Engineer", "Web Developer", "Student of Computer Science"],
+                typeSpeed: 100,
+                backSpeed: 100,
+                backDelay: 1000,
+                loop: true
+            });
+        });
+    </script>
+
+</body>
+
+</html>
+
+
